@@ -1,4 +1,5 @@
 import os
+import base64
 import asyncio
 from celery import Celery
 import time
@@ -40,7 +41,23 @@ def generate_video_task(self, url: str):
         storyboard = generate_storyboard(screenshots)
         print("Storyboard generated successfully!")
         
-        # Step 3: Remotion rendering
+        # Step 3: Save images to disk and inject URLs into storyboard
+        base_url = os.environ.get("BACKEND_URL", "http://localhost:8000")
+        screenshot_urls = []
+        image_dir = os.path.join(os.path.dirname(__file__), "static", "images")
+        os.makedirs(image_dir, exist_ok=True)
+        
+        for idx, b64_str in enumerate(screenshots):
+            img_data = base64.b64decode(b64_str)
+            filename = f"{self.request.id}_{idx}.png"
+            filepath = os.path.join(image_dir, filename)
+            with open(filepath, "wb") as f:
+                f.write(img_data)
+            screenshot_urls.append(f"{base_url}/images/{filename}")
+            
+        storyboard["screenshot_urls"] = screenshot_urls
+        
+        # Step 4: Remotion rendering
         self.update_state(state='PROCESSING', meta={'step': 'Rendering video with Remotion'})
         print("Rendering video...")
         

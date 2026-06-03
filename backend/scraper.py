@@ -32,23 +32,11 @@ async def capture_screenshots(url: str, num_screenshots: int = 5):
                 except Exception:
                     pass
 
-            # Scroll and capture
-            # Get total height of the page
-            page_height = await page.evaluate("document.body.scrollHeight")
-            viewport_height = 900
-            
-            # If the page is shorter than num_screenshots * viewport, adjust
-            scroll_step = max(viewport_height, page_height // num_screenshots)
-            
-            for i in range(num_screenshots):
-                # Take screenshot
-                screenshot_bytes = await page.screenshot(type='png')
-                base64_img = base64.b64encode(screenshot_bytes).decode('utf-8')
-                screenshots.append(base64_img)
-                
-                # Scroll down
-                await page.evaluate(f"window.scrollBy(0, {scroll_step})")
-                await page.wait_for_timeout(500) # Wait for animations/lazy loading
+            # Take a single full-page screenshot
+            await page.wait_for_timeout(2000) # Wait for animations/lazy loading to settle
+            screenshot_bytes = await page.screenshot(type='png', full_page=True)
+            base64_img = base64.b64encode(screenshot_bytes).decode('utf-8')
+            screenshots.append(base64_img)
                 
         except Exception as e:
             print(f"Error scraping {url}: {e}")

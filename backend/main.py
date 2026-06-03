@@ -18,6 +18,9 @@ app.add_middleware(
 os.makedirs("static/videos", exist_ok=True)
 app.mount("/videos", StaticFiles(directory="static/videos"), name="videos")
 
+os.makedirs("static/images", exist_ok=True)
+app.mount("/images", StaticFiles(directory="static/images"), name="images")
+
 class VideoRequest(BaseModel):
     url: str
 
