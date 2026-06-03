@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+celery
+redis
+playwright
+google-genai
+python-dotenv
+boto3
