@@ -5,6 +5,7 @@ import { TypewriterScene } from './scenes/TypewriterScene';
 import { BlurFadeScene } from './scenes/BlurFadeScene';
 import { GradientWipeScene } from './scenes/GradientWipeScene';
 import { PunchInScene } from './scenes/PunchInScene';
+import { AmbientBackground } from './scenes/AmbientBackground';
 
 const ContinuousZoom: React.FC<{ children: React.ReactNode, durationInFrames: number }> = ({ children, durationInFrames }) => {
   const frame = useCurrentFrame();
@@ -31,6 +32,7 @@ export const MainSequence: React.FC<any> = ({ scenes, brand_color_primary, scree
         if (scene.animation_type === 'punch-in') {
             return (
               <Sequence key={index} from={startFrame} durationInFrames={durationFrames}>
+                 <AmbientBackground primaryColor={brand_color_primary} />
                  <PunchInScene 
                    scene={scene} 
                    primaryColor={brand_color_primary} 
@@ -47,10 +49,11 @@ export const MainSequence: React.FC<any> = ({ scenes, brand_color_primary, scree
         
         return (
           <Sequence key={index} from={startFrame} durationInFrames={durationFrames}>
+               <AmbientBackground primaryColor={brand_color_primary} />
                <SceneComponent 
                  scene={scene} 
                  primaryColor={brand_color_primary} 
-                 secondaryColor="#0A0A0A" 
+                 secondaryColor="transparent" 
                />
           </Sequence>
         );

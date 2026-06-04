@@ -1,45 +1,39 @@
 import React from 'react';
-import { AbsoluteFill, Img, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Img, interpolate, Easing, useCurrentFrame, useVideoConfig } from 'remotion';
 
-export const PunchInScene: React.FC<any> = ({ scene, screenshotUrl }) => {
+export const PunchInScene: React.FC<any> = ({ scene, screenshotUrl, primaryColor }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const durationFrames = scene.duration_seconds * fps;
 
-  // Gentle scale up over the whole scene to keep it fully in frame
-  const scale = interpolate(frame, [0, durationFrames], [0.85, 0.95], {
-    extrapolateRight: 'clamp',
-  });
+  // Static scale, pushed closer to the camera
+  const scale = 0.95;
 
-  // Very subtle Rotate Y (left side closer)
-  const rotateY = interpolate(frame, [0, durationFrames], [15, 5], {
-    extrapolateRight: 'clamp',
-  });
-  
-  // Very subtle Rotate X (looking slightly down)
-  const rotateX = interpolate(frame, [0, durationFrames], [10, 0], {
-    extrapolateRight: 'clamp',
-  });
+  // Static Isometric Tilt Geometry
+  const rotateY = -22;
+  const rotateX = 12;
+  const rotateZ = 3;
 
-  // Scroll effect (move image up smoothly over the whole scene)
-  const scrollY = interpolate(frame, [0, durationFrames], [0, -40], {
+  // Slow-mo linear scroll effect
+  const scrollY = interpolate(frame, [0, durationFrames], [0, -20], {
     extrapolateRight: 'clamp',
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: '#0A0A0A', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', perspective: '2000px' }}>
+    <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', perspective: '2500px' }}>
         
-        {/* 3D Tilted Screenshot Window (No Text) */}
+        {/* 3D Tilted Screenshot Window */}
         {screenshotUrl && (
             <div style={{ 
                 width: '85%', 
-                height: '80%', // Fixed height creates a realistic browser window
-                transform: `scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+                height: '80%', 
+                transform: `translateX(-5%) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`,
                 transformStyle: 'preserve-3d',
                 borderRadius: '16px', 
-                boxShadow: '-20px 40px 100px rgba(0,0,0,0.8)',
-                border: '1px solid rgba(255,255,255,0.15)',
+                boxShadow: `0px 10px 40px rgba(0,0,0,0.8), 0px 0px 80px 20px ${primaryColor}`,
+                  border: '1px solid rgba(255,255,255,0.15)',
+                
                 overflow: 'hidden',
                 backgroundColor: '#1e1e1e'
             }}>

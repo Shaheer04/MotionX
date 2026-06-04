@@ -19,7 +19,8 @@ export const BlurFadeScene: React.FC<any> = ({ scene, primaryColor, secondaryCol
           fontFamily: "'Outfit', sans-serif",
           textTransform: 'uppercase',
           opacity: opacity,
-          filter: `blur(${blur}px)`
+          filter: `blur(${blur}px)`,
+          textShadow: '0px 10px 30px rgba(0,0,0,0.8)'
         }}>
           {scene.copy_text}
         </span>

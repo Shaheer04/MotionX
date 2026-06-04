@@ -20,7 +20,8 @@ export const TypewriterScene: React.FC<any> = ({ scene, primaryColor, secondaryC
           fontWeight: '900', 
           fontFamily: "'Outfit', sans-serif",
           textTransform: 'uppercase',
-          lineHeight: '1.2'
+          lineHeight: '1.2',
+          textShadow: '0px 10px 30px rgba(0,0,0,0.8)'
         }}>
           {textToShow}
           <span style={{ opacity: frame % 10 < 5 ? 1 : 0 }}>|</span>

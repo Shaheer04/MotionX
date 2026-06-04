@@ -20,6 +20,7 @@ export const GradientWipeScene: React.FC<any> = ({ scene, primaryColor, secondar
           fontWeight: '900', 
           fontFamily: "'Outfit', sans-serif",
           textTransform: 'uppercase',
+          textShadow: '0px 10px 30px rgba(0,0,0,0.8)'
         }}>
           {scene.copy_text}
         </span>
@@ -36,6 +37,7 @@ export const GradientWipeScene: React.FC<any> = ({ scene, primaryColor, secondar
           fontFamily: "'Outfit', sans-serif",
           textTransform: 'uppercase',
           clipPath: `polygon(0 0, ${wipeProgress}% 0, ${wipeProgress}% 100%, 0% 100%)`,
+          textShadow: '0px 10px 30px rgba(0,0,0,0.8)'
         }}>
           {scene.copy_text}
         </span>

@@ -32,7 +32,8 @@ export const SlideInScene: React.FC<any> = ({ scene, primaryColor, secondaryColo
                   fontSize: '140px', 
                   fontWeight: '900', 
                   fontFamily: "'Outfit', sans-serif",
-                  textTransform: 'uppercase'
+                  textTransform: 'uppercase',
+                  textShadow: '0px 10px 30px rgba(0,0,0,0.8)'
                 }}>
                   {word}
                 </span>
