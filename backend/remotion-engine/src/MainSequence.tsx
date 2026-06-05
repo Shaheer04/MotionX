@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sequence, AbsoluteFill, Img, useVideoConfig, useCurrentFrame, interpolate } from 'remotion';
+import { Sequence, AbsoluteFill, Img, useVideoConfig, useCurrentFrame, interpolate, Audio, staticFile } from 'remotion';
 import { SlideInScene } from './scenes/SlideInScene';
 import { TypewriterScene } from './scenes/TypewriterScene';
 import { BlurFadeScene } from './scenes/BlurFadeScene';
@@ -22,8 +22,15 @@ export const MainSequence: React.FC<any> = ({ scenes, brand_color_primary, scree
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#ffffff' }}>
+      {/* 100 BPM Background Music */}
+      {/* If your song has silence at the beginning, adjust 'startFrom' (e.g., 15 means start playing from frame 15, which skips 0.5s of intro silence) */}
+      <Audio src={staticFile('music-2.mp3')} volume={0.8} startFrom={0} />
+
       {scenes.map((scene: any, index: number) => {
-        const durationFrames = Math.ceil((scene.duration_seconds || 2) * fps);
+        // Enforce strict 100 BPM snap-to-grid (0.6 seconds per beat)
+        // This ensures perfectly synced frames even if the AI hallucinates a decimal
+        const durationSeconds = Math.round((scene.duration_seconds || 2) / 0.6) * 0.6;
+        const durationFrames = Math.round(durationSeconds * fps);
         const startFrame = currentFrame;
         currentFrame += durationFrames;
 

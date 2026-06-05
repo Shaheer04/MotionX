@@ -14,7 +14,7 @@ class Scene(BaseModel):
     title: str = Field(description="Short title for the scene")
     copy_text: str = Field(description="The marketing copy to display in the video")
     screenshot_index: int = Field(description="The index of the screenshot to use as background (always 0)")
-    duration_seconds: float = Field(description="Duration of the scene in seconds")
+    duration_seconds: float = Field(description="Duration of the scene in seconds. MUST be exactly 1.2, 1.8, 2.4, 4.8, or 6.0 for 100 BPM sync.")
     animation_type: str = Field(description="Type of animation: 'slide-in', 'typewriter', 'blur-fade', 'gradient-wipe', or 'punch-in'")
 
 class VideoPlan(BaseModel):
@@ -48,7 +48,10 @@ def generate_storyboard(screenshots_base64: list[str]) -> dict:
         "The video relies on fast-paced 'Kinetic Typography'. You must generate exactly 8 to 10 very short scenes. "
         "Each scene should have 1 to 4 words MAX of this high-converting marketing copy. "
         "Specify which screenshot index should be used as the background (always use 0). "
-        "Most scenes should be 1.5 to 2.5 seconds long, EXCEPT for the 'punch-in' scene which MUST be exactly 5.0 to 7.0 seconds long to allow time for the UI to scroll slowly."
+        "CRITICAL TEMPO INSTRUCTION: The video is perfectly synced to a 100 BPM music track (1 beat = 0.6 seconds). "
+        "To ensure every transition lands flawlessly on a drum beat, EVERY scene duration MUST be an exact multiple of 0.6 seconds! "
+        "Most text scenes MUST be exactly 1.2, 1.8, or 2.4 seconds long. "
+        "The 'punch-in' UI reveal scene MUST be exactly 4.8 or 6.0 seconds long to allow time for the slow scroll. DO NOT use any other decimals."
         "Also, strictly recommend an animation type ('slide-in', 'typewriter', 'blur-fade', 'gradient-wipe', or 'punch-in') for each scene. "
         "IMPORTANT: You MUST rely primarily on text animation ('slide-in', 'typewriter', 'blur-fade', 'gradient-wipe'). You may ONLY use the 'punch-in' animation for a maximum of 1 or 2 scenes near the climax of the video to reveal the UI."
     )
